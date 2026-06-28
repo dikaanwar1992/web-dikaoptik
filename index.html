@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perencanaan FTTH Pro - Andika</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white; }
+            .print-card { border: 1px solid #e2e8f0; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <div class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Sistem Manajemen & Perencanaan FTTH</h1>
+            <p class="text-slate-500 mt-2">Pilih variasi material, tentukan lokasi, dan kelola anggaran proyek secara dinamis.</p>
+        </header>
+
+        <form id="ftthForm" class="space-y-6" onsubmit="event.preventDefault();">
+            
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 mb-4 gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="p-2 bg-blue-50 text-blue-600 rounded-lg text-lg">🪵</span>
+                        <h2 class="text-xl font-bold text-slate-800">Komponen: Tiang</h2>
+                    </div>
+                    <button type="button" onclick="tambahBaris('container-tiang', 'tiang')" class="no-print px-3 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition cursor-pointer">+ Tambah Material/Lokasi</button>
+                </div>
+                <div id="container-tiang" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end item-row">
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Pilih Jenis Material</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">
+                                <option value="Tiang Besi 7 Meter">Tiang Besi 7 Meter</option>
+                                <option value="Tiang Besi 9 Meter">Tiang Besi 9 Meter</option>
+                                <option value="Tiang Beton 7 Meter">Tiang Beton 7 Meter</option>
+                                <option value="Tiang Beton 9 Meter">Tiang Beton 9 Meter</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Lokasi Penempatan</label>
+                            <input type="text" placeholder="e.g. Jl. Merdeka Blok A" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Banyak (Pcs)</label>
+                            <input type="number" value="0" min="0" class="hitung-kali-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Biaya Satuan (Rp)</label>
+                            <input type="number" value="0" min="0" class="hitung-kali-2 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-1 text-right no-print">
+                            <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-bold text-sm cursor-pointer">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 mb-4 gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="p-2 bg-purple-50 text-purple-600 rounded-lg text-lg">🔌</span>
+                        <h2 class="text-xl font-bold text-slate-800">Komponen: Kabel</h2>
+                    </div>
+                    <button type="button" onclick="tambahBaris('container-kabel', 'kabel')" class="no-print px-3 py-1.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition cursor-pointer">+ Tambah Material/Lokasi</button>
+                </div>
+                <div id="container-kabel" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end item-row">
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Pilih Jenis Kabel</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">
+                                <option value="Kabel Drop Core 1 Core">Kabel Drop Core 1 Core</option>
+                                <option value="Kabel ADSS 24 Core">Kabel ADSS 24 Core</option>
+                                <option value="Kabel ADSS 48 Core">Kabel ADSS 48 Core</option>
+                                <option value="Kabel Fig-8 12 Core">Kabel Fig-8 12 Core</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Lokasi Penarikan</label>
+                            <input type="text" placeholder="e.g. Ruas Jalan Utama" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Panjang (Meter)</label>
+                            <input type="number" value="0" min="0" class="hitung-kali-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Biaya per Meter (Rp)</label>
+                            <input type="number" value="0" min="0" class="hitung-kali-2 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-1 text-right no-print">
+                            <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-bold text-sm cursor-pointer">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 mb-4 gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="p-2 bg-green-50 text-green-600 rounded-lg text-lg">📦</span>
+                        <h2 class="text-xl font-bold text-slate-800">Komponen: ODP (Optical Distribution Point)</h2>
+                    </div>
+                    <button type="button" onclick="tambahBaris('container-odp', 'langsung')" class="no-print px-3 py-1.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition cursor-pointer">+ Tambah Material/Lokasi</button>
+                </div>
+                <div id="container-odp" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end item-row">
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Jenis ODP / Splitter</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">
+                                <option value="ODP Solid 1:8">ODP Solid 1:8</option>
+                                <option value="ODP Solid 1:16">ODP Solid 1:16</option>
+                                <option value="ODP Closure 1:8">ODP Closure 1:8</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Lokasi Titik ODP</label>
+                            <input type="text" placeholder="e.g. Tiang No. 12" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Total Biaya ODP (Rp)</label>
+                            <input type="number" value="0" min="0" class="hitung-langsung w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-1 text-right no-print">
+                            <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-bold text-sm cursor-pointer">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 mb-4 gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="p-2 bg-amber-50 text-amber-600 rounded-lg text-lg">🗄️</span>
+                        <h2 class="text-xl font-bold text-slate-800">Komponen: ODC (Optical Distribution Cabinet)</h2>
+                    </div>
+                    <button type="button" onclick="tambahBaris('container-odc', 'langsung')" class="no-print px-3 py-1.5 bg-amber-600 text-white text-sm font-semibold rounded-lg hover:bg-amber-700 transition cursor-pointer">+ Tambah Material/Lokasi</button>
+                </div>
+                <div id="container-odc" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end item-row">
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Kapasitas ODC</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">
+                                <option value="ODC 48 Core">ODC Cabinet 48 Core</option>
+                                <option value="ODC 96 Core">ODC Cabinet 96 Core</option>
+                                <option value="ODC 144 Core">ODC Cabinet 144 Core</option>
+                                <option value="ODC 288 Core">ODC Cabinet 288 Core</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Lokasi Penempatan ODC</label>
+                            <input type="text" placeholder="e.g. Sentral Utama" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Total Biaya ODC (Rp)</label>
+                            <input type="number" value="0" min="0" class="hitung-langsung w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-1 text-right no-print">
+                            <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-bold text-sm cursor-pointer">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 mb-4 gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="p-2 bg-red-50 text-red-600 rounded-lg text-lg">🏠</span>
+                        <h2 class="text-xl font-bold text-slate-800">Komponen: Rumah / Pelanggan (Homepass)</h2>
+                    </div>
+                    <button type="button" onclick="tambahBaris('container-rumah', 'langsung')" class="no-print px-3 py-1.5 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition cursor-pointer">+ Tambah Material/Lokasi</button>
+                </div>
+                <div id="container-rumah" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end item-row">
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Paket/Material ONT</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">
+                                <option value="Paket ONT Wifi Gpon">Paket Pasang ONT Wifi GPON</option>
+                                <option value="Roset Optik + Patchcord">Roset Optik + Patchcord Only</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Lokasi / Area Rumah</label>
+                            <input type="text" placeholder="e.g. Perumahan Mutiara Sektor 1" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Total Biaya Sambungan Rumah (Rp)</label>
+                            <input type="number" value="0" min="0" class="hitung-langsung w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                        </div>
+                        <div class="md:col-span-1 text-right no-print">
+                            <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-bold text-sm cursor-pointer">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 text-white p-6 rounded-xl shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Penanggung Jawab / Pekerja</p>
+                    <p class="text-lg font-bold text-slate-200">Andika</p>
+                    <p class="text-sm text-slate-400">Tanggal: 20 Juli 2026</p>
+                </div>
+                <div class="text-center md:text-right w-full md:w-auto border-t md:border-t-0 border-slate-700 pt-4 md:pt-0">
+                    <p class="text-sm text-slate-400 font-medium">TOTAL KESELURUHAN BIAYA</p>
+                    <p id="grandTotal" class="text-3xl font-black text-emerald-400 mt-1">Rp 0</p>
+                </div>
+            </div>
+
+            <div class="text-right no-print">
+                <button type="button" onclick="window.print()" class="px-6 py-3 bg-slate-800 text-white font-bold rounded-xl shadow-md hover:bg-slate-700 transition cursor-pointer">
+                    🖨️ Cetak / Simpan PDF
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <footer class="bg-slate-100 border-t border-slate-200 py-4 text-center text-xs text-slate-500 no-print">
+        &copy; 2026 Sistem Perencanaan FTTH. Diarsip oleh Andika.
+    </footer>
+
+    <script>
+        // Data Opsi Dropdown Material
+        const opsiMaterial = {
+            tiang: ['Tiang Besi 7 Meter', 'Tiang Besi 9 Meter', 'Tiang Beton 7 Meter', 'Tiang Beton 9 Meter'],
+            kabel: ['Kabel Drop Core 1 Core', 'Kabel ADSS 24 Core', 'Kabel ADSS 48 Core', 'Kabel Fig-8 12 Core'],
+            odp: ['ODP Solid 1:8', 'ODP Solid 1:16', 'ODP Closure 1:8'],
+            odc: ['ODC Cabinet 48 Core', 'ODC Cabinet 96 Core', 'ODC Cabinet 144 Core', 'ODC Cabinet 288 Core'],
+            rumah: ['Paket Pasang ONT Wifi GPON', 'Roset Optik + Patchcord Only']
+        };
+
+        // Fungsi Tambah Baris Form Baru (Sudah Diperbaiki)
+        function tambahBaris(containerId, tipe) {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = "grid grid-cols-1 md:grid-cols-12 gap-3 items-end item-row border-t border-dashed border-slate-200 pt-3";
+
+            let key = containerId.replace('container-', '');
+            let opsiHTML = opsiMaterial[key].map(item => `<option value="${item}">${item}</option>`).join('');
+
+            let ringColor = 'focus:ring-blue-500';
+            if (tipe === 'kabel') ringColor = 'focus:ring-purple-500';
+            if (containerId === 'container-odp') ringColor = 'focus:ring-green-500';
+            if (containerId === 'container-odc') ringColor = 'focus:ring-amber-500';
+            if (containerId === 'container-rumah') ringColor = 'focus:ring-red-500';
+
+            if (tipe === 'tiang' || tipe === 'kabel') {
+                let placeholderText = tipe === 'tiang' ? 'e.g. Jl. Anggrek No. 5' : 'e.g. Jalur Distribusi RW 02';
+                div.innerHTML = `
+                    <div class="md:col-span-3">
+                        <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">${opsiHTML}</select>
+                    </div>
+                    <div class="md:col-span-4">
+                        <input type="text" placeholder="${placeholderText}" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                        <input type="number" value="0" min="0" class="hitung-kali-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm ${ringColor}">
+                    </div>
+                    <div class="md:col-span-2">
+                        <input type="number" value="0" min="0" class="hitung-kali-2 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm ${ringColor}">
+                    </div>
+                    <div class="md:col-span-1 text-right no-print">
+                        <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-semibold text-sm cursor-pointer">Hapus</button>
+                    </div>
+                `;
+            } else {
+                let placeholderText = containerId === 'container-odp' ? 'e.g. Tiang No. 15' : 
+                                      containerId === 'container-odc' ? 'e.g. Sektor Pembagi B' : 'e.g. Cluster Mutiara';
+                div.innerHTML = `
+                    <div class="md:col-span-4">
+                        <select class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm">${opsiHTML}</select>
+                    </div>
+                    <div class="md:col-span-4">
+                        <input type="text" placeholder="${placeholderText}" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                    </div>
+                    <div class="md:col-span-3">
+                        <input type="number" value="0" min="0" class="hitung-langsung w-full px-3 py-2 border border-slate-300 rounded-lg text-sm ${ringColor}">
+                    </div>
+                    <div class="md:col-span-1 text-right no-print">
+                        <button type="button" onclick="hapusBaris(this)" class="p-2 text-red-500 hover:text-red-700 font-semibold text-sm cursor-pointer">Hapus</button>
+                    </div>
+                `;
+            }
+
+            container.appendChild(div);
+
+            // Daftarkan fungsi hitung otomatis pada input baru
+            div.querySelectorAll('input[type=number]').forEach(input => {
+                input.addEventListener('input', hitungTotalSemua);
+            });
+        }
+
+        function hapusBaris(button) {
+            const row = button.closest('.item-row');
+            row.remove();
+            hitungTotalSemua();
+        }
+
+        function hitungTotalSemua() {
+            let totalKeseluruhan = 0;
+
+            // 1. Hitung perkalian (Tiang & Kabel)
+            const rowsPerkalian = document.querySelectorAll('.item-row');
+            rowsPerkalian.forEach(row => {
+                const input1 = row.querySelector('.hitung-kali-1');
+                const input2 = row.querySelector('.hitung-kali-2');
+                
+                if (input1 && input2) {
+                    const nilai1 = parseFloat(input1.value) || 0;
+                    const nilai2 = parseFloat(input2.value) || 0;
+                    totalKeseluruhan += (nilai1 * nilai2);
+                }
+            });
+
+            // 2. Hitung input biaya langsung (ODP, ODC, Rumah)
+            const inputsLangsung = document.querySelectorAll('.hitung-langsung');
+            inputsLangsung.forEach(input => {
+                totalKeseluruhan += (parseFloat(input.value) || 0);
+            });
+
+            // Format ke IDR Rupiah
+            const formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            });
+
+            document.getElementById('grandTotal').innerText = formatter.format(totalKeseluruhan);
+        }
+
+        // Daftarkan event listener ke komponen bawaan pertama
+        document.querySelectorAll('input[type=number]').forEach(input => {
+            input.addEventListener('input', hitungTotalSemua);
+        });
+
+        hitungTotalSemua();
+    </script>
+</body>
+</html>
